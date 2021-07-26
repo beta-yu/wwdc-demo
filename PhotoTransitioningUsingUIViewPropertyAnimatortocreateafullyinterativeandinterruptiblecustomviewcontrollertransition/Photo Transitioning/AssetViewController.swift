@@ -44,7 +44,7 @@ enum AssetLayoutStyle {
         case .oneUp:
             layout.minimumLineSpacing = 40
             layout.minimumInteritemSpacing = 0
-            layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20)
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
             layout.scrollDirection = .horizontal;
             layout.itemSize = size
         }
@@ -126,7 +126,11 @@ class AssetViewController: UICollectionViewController, UICollectionViewDataSourc
         case .grid:
             title = "All Photos"
         case .oneUp:
-            self.automaticallyAdjustsScrollViewInsets = false
+            if #available(iOS 11.0, *) {
+                self.collectionView.contentInsetAdjustmentBehavior = .never
+            } else {
+                self.automaticallyAdjustsScrollViewInsets = false
+            }
             self.collectionView?.isPagingEnabled = true
             self.collectionView?.frame = view.frame.insetBy(dx: -20.0, dy: 0.0)
         }
